@@ -3,15 +3,21 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "vite",
+    "start": "node scripts/serve-dist.js",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "serve": "node scripts/serve-dist.js"
   },
   "dependencies": {
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "resend": "^6.12.3",
     "three": "^0.183.2"
   },
   "devDependencies": {

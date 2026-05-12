@@ -1265,7 +1265,7 @@ function FeatureSection() {
         <SectionIntro
           eyebrow="CORE CAPABILITIES"
           title="Built to remove ambiguity from operations."
-          body="Every surface on the page now tells the same story: Aletheos is for teams that need proof, control, and enforced next actions."
+          body="Aletheos is for teams that need proof, control, and enforced next actions across the systems they already depend on."
         />
 
         <div className="feature-section__grid">
@@ -1314,7 +1314,7 @@ function DifferenceSection() {
         <SectionIntro
           eyebrow="THE DIFFERENCE"
           title="Reporting tells you. Governance ensures."
-          body="This is the strategic separation the page needed to make clearer."
+          body="Dashboards describe state after it happens. Aletheos verifies state before teams act on it."
         />
 
         <div className="difference-table" role="table" aria-label="Reporting tools compared with Aletheos">
@@ -1338,15 +1338,61 @@ function DifferenceSection() {
 function ContactForm() {
   const [ref, visible] = useReveal(0.15);
   const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
-  const [submitted, setSubmitted] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
+  const [submission, setSubmission] = useState({ status: "idle", message: "" });
+  const isSubmitting = submission.status === "sending";
 
   const updateField = (field) => (event) => {
     setForm((current) => ({ ...current, [field]: event.target.value }));
+    if (submission.status !== "idle") {
+      setSubmission({ status: "idle", message: "" });
+    }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setSubmitted(true);
+
+    if (honeypot) {
+      setSubmission({
+        status: "success",
+        message: "Access request received. We will review it and respond directly.",
+      });
+      setForm({ name: "", email: "", company: "", message: "" });
+      return;
+    }
+
+    setSubmission({ status: "sending", message: "Sending access request..." });
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          company: form.company.trim(),
+          message: form.message.trim(),
+          website: honeypot.trim(),
+        }),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.error || "The request could not be sent. Please try again.");
+      }
+
+      setSubmission({
+        status: "success",
+        message: "Access request received. We will review it and respond directly.",
+      });
+      setForm({ name: "", email: "", company: "", message: "" });
+    } catch (error) {
+      setSubmission({
+        status: "error",
+        message: error.message || "The request could not be sent. Please try again.",
+      });
+    }
   };
 
   return (
@@ -1356,7 +1402,7 @@ function ContactForm() {
           <SectionIntro
             eyebrow="REQUEST ACCESS"
             title="Ready to run on proof instead of reporting?"
-            body="This page now sets the right expectation for high-accountability operators. The only missing piece is wiring the form to the intake destination you want to use."
+            body="Send a private intake request and we will follow up with the right next step for your operation."
             align="left"
           />
 
@@ -1376,31 +1422,79 @@ function ContactForm() {
         <form className="contact-form" onSubmit={handleSubmit}>
           <label>
             <span>Name</span>
-            <input type="text" value={form.name} onChange={updateField("name")} required />
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={updateField("name")}
+              autoComplete="name"
+              disabled={isSubmitting}
+              required
+            />
           </label>
 
           <label>
             <span>Email</span>
-            <input type="email" value={form.email} onChange={updateField("email")} required />
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={updateField("email")}
+              autoComplete="email"
+              disabled={isSubmitting}
+              required
+            />
           </label>
 
           <label>
             <span>Company</span>
-            <input type="text" value={form.company} onChange={updateField("company")} required />
+            <input
+              type="text"
+              name="company"
+              value={form.company}
+              onChange={updateField("company")}
+              autoComplete="organization"
+              disabled={isSubmitting}
+              required
+            />
           </label>
 
           <label>
             <span>Tell us about your operation</span>
-            <textarea rows={5} value={form.message} onChange={updateField("message")} required />
+            <textarea
+              rows={5}
+              name="message"
+              value={form.message}
+              onChange={updateField("message")}
+              disabled={isSubmitting}
+              required
+            />
           </label>
 
-          <button className="button" type="submit">
-            Request Access
+          <label className="contact-form__trap" aria-hidden="true">
+            <span>Leave this field empty</span>
+            <input
+              type="text"
+              name="website"
+              tabIndex="-1"
+              autoComplete="off"
+              value={honeypot}
+              onChange={(event) => setHoneypot(event.target.value)}
+            />
+          </label>
+
+          <button className="button" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Sending..." : "Request Access"}
           </button>
 
-          <p className={`contact-form__message${submitted ? " is-visible" : ""}`} role="status">
-            Prototype submission captured locally. Connect this action to your CRM, email intake, or
-            backend endpoint when you are ready to make requests live.
+          <p
+            className={`contact-form__message contact-form__message--${submission.status}${
+              submission.status !== "idle" ? " is-visible" : ""
+            }`}
+            role="status"
+            aria-live="polite"
+          >
+            {submission.message}
           </p>
         </form>
       </div>
