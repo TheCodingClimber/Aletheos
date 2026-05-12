@@ -1,0 +1,17 @@
+{
+  "name": "Aletheos",
+  "short_name": "Aletheos",
+  "description": "Operational truth engine for state validation, proof, and governance.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06080c",
+  "theme_color": "#06080c",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

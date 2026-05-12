@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#06080c"/>
+      <stop offset=".56" stop-color="#0d1219"/>
+      <stop offset="1" stop-color="#121923"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".74" cy=".32" r=".5">
+      <stop offset="0" stop-color="#00f0ff" stop-opacity=".32"/>
+      <stop offset="1" stop-color="#00f0ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <path d="M0 470h1200M0 350h1200M0 230h1200M0 110h1200M160 0v630M360 0v630M560 0v630M760 0v630M960 0v630" stroke="#7d8aa4" stroke-opacity=".08"/>
+  <g transform="translate(785 118)">
+    <circle cx="155" cy="155" r="135" fill="none" stroke="#00f0ff" stroke-opacity=".45" stroke-width="3"/>
+    <circle cx="155" cy="155" r="91" fill="none" stroke="#00e676" stroke-opacity=".62" stroke-width="2" stroke-dasharray="10 13"/>
+    <path d="M155 24 268.45 89.5v131L155 286 41.55 220.5v-131L155 24Z" fill="none" stroke="#e4eaf0" stroke-opacity=".28" stroke-width="2"/>
+    <path d="M110 222 155 76l45 146h-29l-8-28h-18l-8 28h-27Zm41-51h10l-5-43-5 43Z" fill="#e4eaf0"/>
+    <circle cx="155" cy="155" r="13" fill="#00f0ff"/>
+  </g>
+  <g fill="#e4eaf0" font-family="Rajdhani, Arial, sans-serif">
+    <text x="76" y="138" font-size="42" font-weight="700" letter-spacing="10">ALETHEOS</text>
+    <text x="76" y="262" font-size="78" font-weight="700" letter-spacing="4">Operational Truth</text>
+    <text x="76" y="348" font-size="78" font-weight="700" letter-spacing="4" fill="#00f0ff">Engine</text>
+  </g>
+  <text x="80" y="432" fill="#9ba8bd" font-family="Arial, sans-serif" font-size="28">
+    Verified state. Enforced rules. Proof-backed decisions.
+  </text>
+  <g font-family="Arial, sans-serif" font-size="20" fill="#00e676">
+    <text x="80" y="522">STATE VALIDATION</text>
+    <text x="310" y="522">AUDIT TRAILS</text>
+    <text x="500" y="522">GOVERNANCE</text>
+  </g>
+</svg>

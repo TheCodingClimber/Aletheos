@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aletheosai.com/sitemap.xml
