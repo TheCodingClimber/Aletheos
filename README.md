@@ -21,18 +21,6 @@ npm start
 
 `npm start` serves the built `dist` files and handles `POST /api/contact` from the same Node process. Put your reverse proxy in front of it and proxy `https://aletheosai.com` to the local app, for example `http://127.0.0.1:5173`.
 
-Set these production environment variables on the server:
-
-```bash
-HOST=127.0.0.1
-PORT=5173
-RESEND_API_KEY=replace-with-your-resend-api-key
-RESEND_FROM_EMAIL=Aletheos <requests@aletheosai.com>
-RESEND_TO_EMAIL=you@your-domain.com
-SITE_URL=https://aletheosai.com
-ALLOWED_ORIGINS=https://aletheosai.com
-```
-
 Keep the Node app bound to `127.0.0.1` and let the reverse proxy terminate HTTPS on ports 80/443. If your proxy supports it, pass `Host`, `X-Forwarded-Proto`, and `X-Forwarded-For` so origin checks and rate limiting see the public request accurately.
 
 ## Verification
